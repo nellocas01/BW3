@@ -1,0 +1,171 @@
+/* ---------- RESET ---------- */
+a,
+.btnLink {
+  text-decoration: none;
+  color: rgb(10, 102, 194);
+  font-weight: 600;
+}
+body {
+  background-color: rgba(243, 242, 239);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+/* ---------- BUTTON ---------- */
+.btn {
+  font-weight: 600;
+  border-radius: 16px;
+  padding: 6px 16px;
+}
+.btn-primary {
+  background-color: rgb(10, 102, 194);
+}
+.btn-primary:hover {
+  background-color: #004182;
+}
+.btn-outline-primary {
+  background-color: transparent;
+  border-radius: 16px;
+  padding: 6px 16px;
+  border-color: rgb(10, 102, 194);
+  border-width: 0;
+  color: rgb(10, 102, 194);
+  box-shadow: inset 0 0 0 1px #0a66c2;
+}
+.btn-outline-primary:hover {
+  background-color: rgba(112, 181, 249, 0.2);
+  color: rgb(10, 102, 194);
+  box-shadow: inset 0 0 0 2px #0a66c2;
+}
+.btn-outline-light {
+  border-color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+  border-width: 0;
+}
+.btn-outline-light:hover {
+  border-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.6);
+}
+
+/* ----- NAVBAR  */
+#avatar {
+  width: 25px;
+}
+
+#avatar-big {
+  width: 50px;
+}
+
+.nav-item-col {
+  color: rgb(210, 210, 210);
+}
+
+/* ---------- MAIN ---------- */
+.profile {
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+.profile .hero-img {
+  position: relative;
+}
+.profile .hero-img img {
+  z-index: 1;
+}
+.profile .hero-img a {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+.profile h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+.profile p {
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.profile .address,
+.profile .link {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+.profile .address span:first-of-type {
+  color: rgba(0, 0, 0, 0.6);
+}
+.image-profile {
+  overflow: hidden;
+  margin-top: -150px;
+  border: 5px solid #fff;
+  z-index: 2;
+}
+.editBtn {
+  background-color: transparent;
+  border: unset;
+}
+.editBtn svg {
+  font-size: 1.5rem;
+  fill: rgba(0, 0, 0, 0.6);
+}
+.carousel .card {
+  background-color: #dce6f1;
+  border: unset;
+}
+.carousel .card-title,
+.carousel p,
+.carousel a {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.carousel .card a {
+  display: block;
+  font-weight: 600;
+}
+.modal-header,
+.modal-body {
+  padding-inline: 24px;
+}
+.modal h1,
+.modal h2,
+.modal h3 {
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.modal h2 {
+  margin-bottom: 1rem;
+}
+.modal h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 1rem;
+}
+.modal svg {
+  font-size: 20px;
+}
+.modal a {
+  color: #0a66c2;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 36px;
+}
+
+/* ---------- SIDE-COL ---------- */
+/* .sideImg {
+  width: 100px;
+} */
+.infoEmail {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+section.profile div:last-of-type hr {
+  display: none;
+}
