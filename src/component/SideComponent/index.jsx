@@ -2,10 +2,11 @@ import { Button } from "react-bootstrap";
 // import avatar from "../assets/img/avatar.png";
 import { ArrowDown, PersonAdd } from "react-bootstrap-icons";
 import { useEffect } from "react";
-import { getProfilesAction } from "../redux/actions";
+import { getProfilesAction } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../../context/AppContext";
+import PeopleComponent from "./PeopleComponent";
 // import PeopleComponent from "./PeopleComponent";
 
 const SideComponent = () => {
@@ -58,6 +59,7 @@ const SideComponent = () => {
           Visualizza altro <ArrowDown />
         </p>
       </section>
+      <PeopleComponent profiles={profiles} />
     </>
   );
 };

@@ -1,10 +1,10 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { ArrowLeft } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-import SideComponent from "./SideComponent";
+import SideComponent from "../SideComponent";
 import { useSelector } from "react-redux";
 import ExperienceSection from "./ExperienceSection";
-import PeopleComponent from "./PeopleComponent";
+import PeopleComponent from "../SideComponent/PeopleComponent";
 
 const ExperiencesPageComponents = () => {
   const navigate = useNavigate();

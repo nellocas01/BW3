@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import coverImg from "../assets/img/cover.jpeg";
-import profileImg from "../assets/img/img-profile.jpg";
+import coverImg from "../../assets/img/cover.jpeg";
+import profileImg from "../../assets/img/img-profile.jpg";
 import { Button, Card, Carousel, Col, Row } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
 import { Link, useParams } from "react-router-dom";
 // import { getSelectedProfileAction, getUserProfileAction } from "../redux/actions";
-import { getSelectedProfileAction } from "../redux/actions";
+import { getSelectedProfileAction } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import ModalProfile from "./ModalProfile";
-import { useAppContext } from "../context/AppContext";
+import ModalProfile from "../Modal/ModalProfile";
+import { useAppContext } from "../../context/AppContext";
 
 const ProfileComponent = () => {
   const dispatch = useDispatch();

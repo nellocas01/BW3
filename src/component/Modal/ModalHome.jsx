@@ -1,5 +1,5 @@
 import { Button, Modal } from "react-bootstrap";
-import avatar from "../assets/img/avatar.png";
+import avatar from "../../assets/img/avatar.png";
 import { useSelector } from "react-redux";
 import {
   ChatText,

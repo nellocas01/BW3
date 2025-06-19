@@ -1,14 +1,14 @@
 /* eslint-disable no-lone-blocks */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Container } from "react-bootstrap";
-import EpicodeImg from "../assets/img/epicode-logo.png";
+import EpicodeImg from "../../assets/img/epicode-logo.png";
 import { ArrowRight, Pencil, PlusLg } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserExperienceAction } from "../redux/actions";
-import ModalExperience from "./ModalExperience";
-import { useAppContext } from "../context/AppContext";
+import { getUserExperienceAction } from "../../redux/actions";
+import ModalExperience from "../Modal/ModalExperience";
+import { useAppContext } from "../../context/AppContext";
 
 const ExperienceComponents = () => {
   const dispatch = useDispatch();

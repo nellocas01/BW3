@@ -1,20 +1,23 @@
-import { Button, Col } from "react-bootstrap";
-import avatar from "../assets/img/avatar.png";
+import { Button } from "react-bootstrap";
 import { ArrowDown, PersonAdd } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const PeopleComponent = () => {
-  const profiles = useSelector(state => state.profiles.content);
+const PeopleComponent = ({ profiles }) => {
   return (
     <section id="people" className="bg-white rounded-3 mt-2 p-4">
       <h3 className="fs-5">Persone che potresti conoscere</h3>
       {profiles &&
-        profiles.map((profile, index) =>
-          index < 4 ? (
+        profiles
+          .map((profile, index) => (
             <div className="d-flex border-bottom mt-3" key={index}>
               <div>
-                <img src={profile.image} alt="avatar" width="50" height="50" className="sideImg rounded-circle" />
+                <img
+                  src={profile.image}
+                  alt="avatar"
+                  width="50"
+                  height="50"
+                  className="sideImg rounded-circle"
+                />
               </div>
               <div className="text-truncate ms-2">
                 <Link to={`/${profile._id}`}>
@@ -30,8 +33,8 @@ const PeopleComponent = () => {
                 </Button>
               </div>
             </div>
-          ) : null
-        )}
+          ))
+          .slice(5, 9)}
 
       <p className="text-center fw-bold mb-0 mt-2">
         Visualizza altro <ArrowDown />

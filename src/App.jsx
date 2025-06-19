@@ -1,23 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/style.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainComponent from "./component/MainComponent";
-import MyNavbar from "./component/MyNavbar";
-import MyFooter from "./component/MyFooter";
-import ExperiencesPageComponents from "./component/ExperiencesPageComponents";
+import Main from "./component/Main";
+import Navbar from "./component/Navbar";
+import Footer from "./component/Footer";
+import ExperiencesPage from "./component/ExperiencePage";
 import Home from "./component/Home";
 
 function App() {
   return (
     <BrowserRouter>
-      <MyNavbar />
+      <Navbar />
       <Routes>
-        <Route path="/" element={<MainComponent />} />
-        <Route path="/:id" element={<MainComponent />} />
-        <Route path="/experience" element={<ExperiencesPageComponents />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/:id" element={<Main />} />
+        <Route path="/experience" element={<ExperiencesPage />} />
         <Route path="/home" element={<Home />} />
       </Routes>
-      <MyFooter />
+      <Footer />
     </BrowserRouter>
   );
 }

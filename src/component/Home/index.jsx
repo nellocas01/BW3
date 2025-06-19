@@ -1,6 +1,6 @@
 import { Button, Col, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import avatar from "../assets/img/avatar.png";
+import avatar from "../../assets/img/avatar.png";
 import {
   ArrowsFullscreen,
   CalendarDate,
@@ -13,11 +13,11 @@ import {
   ThreeDots,
 } from "react-bootstrap-icons";
 import { useState } from "react";
-import ModalHome from "./ModalHome";
-import ModalHomeImg from "./ModalHomeImg";
+import ModalHome from "../Modal/ModalHome";
+import ModalHomeImg from "../Modal/ModalHomeImg";
 import { useSelector } from "react-redux";
-import ModalHomeVideo from "./ModalHomeVideo";
-import ModalHomeEvent from "./ModalHomeEvent";
+import ModalHomeVideo from "../Modal/ModalHomeVideo";
+import ModalHomeEvent from "../Modal/ModalHomeEvent";
 
 const Home = () => {
   const user = useSelector((state) => state.user.content);

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import EpicodeImg from "../assets/img/epicode-logo.png";
+import EpicodeImg from "../../assets/img/epicode-logo.png";
 import { Button } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
-import ModalExperienceDeletePut from "./ModalExperienceDeletePut";
+import ModalExperienceDeletePut from "../Modal/ModalExperienceDeletePut";
 
 const ExperienceSection = item => {
   const [show, setShow] = useState(false);
