@@ -10,7 +10,7 @@ const profilesReducer = (state = initialState, action) => {
       return {
         ...state,
         // content: [action.payload]
-        content: action.payload.slice(0, 10),
+        content: action.payload.slice(0, 20),
       };
     default:
       return state;

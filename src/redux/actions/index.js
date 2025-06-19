@@ -1,13 +1,10 @@
 // endpoint
-const endpointSelectedProfile =
-  "https://striveschool-api.herokuapp.com/api/profile/";
+const endpointProfile = "https://striveschool-api.herokuapp.com/api/profile/";
 const endpointUserProfile =
   "https://striveschool-api.herokuapp.com/api/profile/me";
-const endpointUserExperience = `https://striveschool-api.herokuapp.com/api/profile/`;
-const endpointProfiles = "https://striveschool-api.herokuapp.com/api/profile/";
 
 export const GET_USER_PROFILE = "GET_USER_PROFILE";
-export const GET_SELECTED_PROFILE = "GET_USER_PROFILE";
+export const GET_SELECTED_PROFILE = "GET_SELECTED_PROFILE";
 export const GET_USER_EXPERIENCE = "GET_USER_EXPERIENCE";
 export const SET_USER_EXPERIENCE = "SET_USER_EXPERIENCE";
 export const DELETE_USER_EXPERIENCE = "DELETE_USER_EXPERIENCE";
@@ -42,23 +39,19 @@ export const getUserProfileAction = (setIsLoading, setError) => {
   };
 };
 
-// export const getSelectedProfileAction = (id) => {
 export const getSelectedProfileAction = (id, setIsLoading, setError) => {
   console.log(id);
   return async (dispatch, getState) => {
     try {
       setIsLoading(true, "Caricamento Profilo selezionato in corso...");
 
-      let resp = await fetch(
-        endpointSelectedProfile + `${id === undefined ? "me" : id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-          },
-        }
-      );
+      let resp = await fetch(endpointProfile + `${id}`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+        },
+      });
       console.log("fetch SELECTED PROFILE");
 
       if (resp.ok) {
@@ -81,7 +74,7 @@ export const getUserExperienceAction = (userId, setIsLoading, setError) => {
     try {
       setIsLoading(true, "Caricamento esperienze utente in corso...");
 
-      let resp = await fetch(endpointUserExperience + userId + "/experiences", {
+      let resp = await fetch(endpointProfile + userId + "/experiences", {
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
         },
@@ -106,7 +99,7 @@ export const getUserExperienceAction = (userId, setIsLoading, setError) => {
 // export const getUserExperienceAction = userId => {
 //   return async (dispatch, getState) => {
 //     try {
-//       let resp = await fetch(endpointUserExperience + userId + "/experiences", {
+//       let resp = await fetch(endpointProfile + userId + "/experiences", {
 //         headers: {
 //           Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
 //         },
@@ -135,17 +128,14 @@ export const setUserExperienceAction = (
   return async (dispatch, getState) => {
     try {
       setIsLoading(true, "Aggiunta esperienza utente in corso...");
-      const resp = await fetch(
-        endpointUserExperience + userId + "/experiences",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-          },
-          body: JSON.stringify(experienceData),
-        }
-      );
+      const resp = await fetch(endpointProfile + userId + "/experiences", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+        },
+        body: JSON.stringify(experienceData),
+      });
       const data = await resp.json();
       dispatch({
         type: "SET_USER_EXPERIENCE",
@@ -170,7 +160,7 @@ export const getProfilesAction = (setIsLoading, setError) => {
     try {
       setIsLoading(true, "Caricamento Profili in corso...");
 
-      const resp = await fetch(endpointProfiles, {
+      const resp = await fetch(endpointProfile, {
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
