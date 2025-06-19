@@ -1,5 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
-import keywordImg from "../Keyword.PNG";
+import keywordImg from "../assets/img/Keyword.PNG";
 
 const KeyPointsComponent = () => {
   return (

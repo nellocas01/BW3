@@ -1,5 +1,5 @@
 import { Button, Col } from "react-bootstrap";
-import avatar from "../avatar.png";
+import avatar from "../assets/img/avatar.png";
 import { ArrowDown, PersonAdd } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";

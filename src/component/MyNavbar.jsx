@@ -1,4 +1,4 @@
-import { Button, Col, Container, Form, FormControl, NavDropdown, Navbar } from "react-bootstrap";
+import { Col, Container, Form, FormControl, NavDropdown, Navbar } from "react-bootstrap";
 import {
   HouseDoorFill,
   Linkedin,
@@ -8,7 +8,7 @@ import {
   BellFill,
   Building,
 } from "react-bootstrap-icons";
-import avatar from "../avatar.png";
+import avatar from "../assets/img/avatar.png";
 import { useNavigate } from "react-router-dom";
 
 const MyNavbar = () => {

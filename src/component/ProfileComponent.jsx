@@ -8,10 +8,12 @@ import { Link, useParams } from "react-router-dom";
 import { getSelectedProfileAction } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import ModalProfile from "./ModalProfile";
+import { useAppContext } from "../context/AppContext";
 
 const ProfileComponent = () => {
   const dispatch = useDispatch();
   const params = useParams();
+  const { setIsLoading, setError } = useAppContext();
 
   // // const user = Object.keys(params).length === 0 && params.constructor === Object ? useSelector((state) => state.user.content) : useSelector((state) => state.selectedProfile.content);
   // if (Object.keys(params).length === 0 && params.constructor === Object) {
@@ -33,7 +35,7 @@ const ProfileComponent = () => {
 
   useEffect(() => {
     // console.log(Object.keys(params).length === 0 && params.constructor === Object);
-    dispatch(getSelectedProfileAction(params.id));
+    dispatch(getSelectedProfileAction(params.id, setIsLoading, setError));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
@@ -68,7 +70,12 @@ const ProfileComponent = () => {
             <p className="job">{user.title}</p>
             <p className="address">
               <span>{user.area}</span> -
-              <Button variant="" bsPrefix="editBtn" className="btnLink" onClick={handleShow}>
+              <Button
+                variant=""
+                bsPrefix="editBtn"
+                className="btnLink"
+                onClick={handleShow}
+              >
                 Informazioni di contatto
               </Button>
               <ModalProfile show={show} handleClose={handleClose} />
@@ -92,8 +99,13 @@ const ProfileComponent = () => {
               <Carousel.Item>
                 <Card>
                   <Card.Body>
-                    <Card.Title className="truncate">Disponibile a lavorare 1</Card.Title>
-                    <Card.Text className="truncate">Ruoli di Web Designer, Frontend Web Developer, Full Stack Web Developer</Card.Text>
+                    <Card.Title className="truncate">
+                      Disponibile a lavorare 1
+                    </Card.Title>
+                    <Card.Text className="truncate">
+                      Ruoli di Web Designer, Frontend Web Developer, Full Stack
+                      Web Developer
+                    </Card.Text>
                     <div>
                       <Card.Link>Mostra Dettagli</Card.Link>
                     </div>
@@ -104,8 +116,13 @@ const ProfileComponent = () => {
               <Carousel.Item>
                 <Card>
                   <Card.Body>
-                    <Card.Title className="truncate">Disponibile a lavorare 2</Card.Title>
-                    <Card.Text className="truncate">Ruoli di Web Designer, Frontend Web Developer, Full Stack Web Developer</Card.Text>
+                    <Card.Title className="truncate">
+                      Disponibile a lavorare 2
+                    </Card.Title>
+                    <Card.Text className="truncate">
+                      Ruoli di Web Designer, Frontend Web Developer, Full Stack
+                      Web Developer
+                    </Card.Text>
                     <div>
                       <Card.Link>Mostra Dettagli</Card.Link>
                     </div>
@@ -116,8 +133,13 @@ const ProfileComponent = () => {
               <Carousel.Item>
                 <Card>
                   <Card.Body>
-                    <Card.Title className="truncate">Disponibile a lavorare 3</Card.Title>
-                    <Card.Text className="truncate">Ruoli di Web Designer, Frontend Web Developer, Full Stack Web Developer</Card.Text>
+                    <Card.Title className="truncate">
+                      Disponibile a lavorare 3
+                    </Card.Title>
+                    <Card.Text className="truncate">
+                      Ruoli di Web Designer, Frontend Web Developer, Full Stack
+                      Web Developer
+                    </Card.Text>
                     <div>
                       <Card.Link>Mostra Dettagli</Card.Link>
                     </div>

@@ -1,6 +1,8 @@
 // endpoint
-const endpointSelectedProfile = "https://striveschool-api.herokuapp.com/api/profile/";
-const endpointUserProfile = "https://striveschool-api.herokuapp.com/api/profile/me";
+const endpointSelectedProfile =
+  "https://striveschool-api.herokuapp.com/api/profile/";
+const endpointUserProfile =
+  "https://striveschool-api.herokuapp.com/api/profile/me";
 const endpointUserExperience = `https://striveschool-api.herokuapp.com/api/profile/`;
 const endpointProfiles = "https://striveschool-api.herokuapp.com/api/profile/";
 
@@ -11,9 +13,11 @@ export const SET_USER_EXPERIENCE = "SET_USER_EXPERIENCE";
 export const DELETE_USER_EXPERIENCE = "DELETE_USER_EXPERIENCE";
 export const GET_PROFILES = "GET_PROFILES";
 
-export const getUserProfileAction = () => {
+export const getUserProfileAction = (setIsLoading, setError) => {
   return async (dispatch, getState) => {
     try {
+      setIsLoading(true, "Caricamento Profilo in corso...");
+
       let resp = await fetch(endpointUserProfile, {
         method: "GET",
         headers: {
@@ -21,50 +25,62 @@ export const getUserProfileAction = () => {
           Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
         },
       });
-      console.log("fetch");
+      console.log("fetch USER PROFILE");
 
       if (resp.ok) {
         const data = await resp.json();
 
         dispatch({ type: GET_USER_PROFILE, payload: data });
       } else {
-        console.log("errore");
+        throw new Error("Errore nel recupero profilo");
       }
     } catch (error) {
-      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
     }
   };
 };
 
-export const getSelectedProfileAction = id => {
+// export const getSelectedProfileAction = (id) => {
+export const getSelectedProfileAction = (id, setIsLoading, setError) => {
   console.log(id);
   return async (dispatch, getState) => {
     try {
-      let resp = await fetch(endpointSelectedProfile + `${id === undefined ? "me" : id}`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-        },
-      });
-      console.log("fetch selected profile");
+      setIsLoading(true, "Caricamento Profilo selezionato in corso...");
+
+      let resp = await fetch(
+        endpointSelectedProfile + `${id === undefined ? "me" : id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+          },
+        }
+      );
+      console.log("fetch SELECTED PROFILE");
 
       if (resp.ok) {
         const data = await resp.json();
 
         dispatch({ type: GET_SELECTED_PROFILE, payload: data });
       } else {
-        console.log("errore");
+        throw new Error("Errore nel recupero profilo selezionato");
       }
     } catch (error) {
-      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
     }
   };
 };
 
-export const getUserExperienceAction = userId => {
+export const getUserExperienceAction = (userId, setIsLoading, setError) => {
   return async (dispatch, getState) => {
     try {
+      setIsLoading(true, "Caricamento esperienze utente in corso...");
+
       let resp = await fetch(endpointUserExperience + userId + "/experiences", {
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
@@ -77,10 +93,12 @@ export const getUserExperienceAction = userId => {
 
         dispatch({ type: GET_USER_EXPERIENCE, payload: data });
       } else {
-        console.log("errore");
+        throw new Error("Errore nel recupero esperienze utente");
       }
     } catch (error) {
-      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
     }
   };
 };
@@ -108,34 +126,50 @@ export const getUserExperienceAction = userId => {
 //   };
 // };
 
-export const setUserExperienceAction = (userId, experienceData) => {
+export const setUserExperienceAction = (
+  userId,
+  experienceData,
+  setIsLoading,
+  setError
+) => {
   return async (dispatch, getState) => {
     try {
-      const resp = await fetch(endpointUserExperience + userId + "/experiences", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-        },
-        body: JSON.stringify(experienceData),
-      });
+      setIsLoading(true, "Aggiunta esperienza utente in corso...");
+      const resp = await fetch(
+        endpointUserExperience + userId + "/experiences",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+          },
+          body: JSON.stringify(experienceData),
+        }
+      );
       const data = await resp.json();
       dispatch({
         type: "SET_USER_EXPERIENCE",
         payload: data,
       });
     } catch (error) {
-      console.error(error);
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
     }
   };
 };
 
-export const deleteUserExperienceAction = value => ({ type: DELETE_USER_EXPERIENCE, payload: value });
+export const deleteUserExperienceAction = (value) => ({
+  type: DELETE_USER_EXPERIENCE,
+  payload: value,
+});
 
 // GET USERS PROFILE TO SIDEBAR
-export const getProfilesAction = () => {
+export const getProfilesAction = (setIsLoading, setError) => {
   return async (dispatch, getState) => {
     try {
+      setIsLoading(true, "Caricamento Profili in corso...");
+
       const resp = await fetch(endpointProfiles, {
         method: "GET",
         headers: {
@@ -149,10 +183,12 @@ export const getProfilesAction = () => {
 
         dispatch({ type: GET_PROFILES, payload: data });
       } else {
-        console.log("errore nella fetch");
+        throw new Error("Errore nel recupero dei profili");
       }
     } catch (error) {
-      console.log(error);
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
     }
   };
 };

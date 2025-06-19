@@ -1,18 +1,20 @@
 import { Button } from "react-bootstrap";
-// import avatar from "../avatar.png";
+// import avatar from "../assets/img/avatar.png";
 import { ArrowDown, PersonAdd } from "react-bootstrap-icons";
 import { useEffect } from "react";
 import { getProfilesAction } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 // import PeopleComponent from "./PeopleComponent";
 
 const SideComponent = () => {
   const dispatch = useDispatch();
   const profiles = useSelector((state) => state.profiles.content);
+  const { setIsLoading, setError } = useAppContext();
 
   useEffect(() => {
-    dispatch(getProfilesAction());
+    dispatch(getProfilesAction(setIsLoading, setError));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -25,7 +27,13 @@ const SideComponent = () => {
             index < 4 ? (
               <div className="d-flex border-bottom mt-3" key={index}>
                 <div>
-                  <img src={profile.image} alt="avatar" width="50" height="50" className="sideImg rounded-circle" />
+                  <img
+                    src={profile.image}
+                    alt="avatar"
+                    width="50"
+                    height="50"
+                    className="sideImg rounded-circle"
+                  />
                 </div>
                 <div className="text-truncate ms-2">
                   <Link to={`/${profile._id}`}>
@@ -34,7 +42,9 @@ const SideComponent = () => {
                     </h3>
                   </Link>
                   <p className="mb-0">{profile.title}</p>
-                  <p className="mb-2 infoEmail text-truncate">{profile.email}</p>
+                  <p className="mb-2 infoEmail text-truncate">
+                    {profile.email}
+                  </p>
                   <Button variant="outline-secondary mb-3">
                     <PersonAdd />
                     Collegati

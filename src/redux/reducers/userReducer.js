@@ -1,4 +1,4 @@
-import { GET_USER_PROFILE } from "../actions"
+import { GET_USER_PROFILE } from "../actions";
 
 const initialState = {
   content: [],
@@ -10,9 +10,9 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         content: action.payload,
-      }
+      };
     default:
       return state;
   }
-}
+};
 export default userReducer;

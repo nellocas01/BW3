@@ -14,7 +14,7 @@ const experienceReducer = (state = initialState, action) => {
     case DELETE_USER_EXPERIENCE:
       return {
         ...state,
-        content: state.content.filter(item => item._id !== action.payload),
+        content: state.content.filter((item) => item._id !== action.payload),
       };
     default:
       return state;

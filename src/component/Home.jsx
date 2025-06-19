@@ -1,6 +1,6 @@
 import { Button, Col, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import avatar from "../avatar.png";
+import avatar from "../assets/img/avatar.png";
 import {
   ArrowsFullscreen,
   CalendarDate,
