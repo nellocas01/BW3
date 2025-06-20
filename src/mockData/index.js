@@ -66,6 +66,18 @@ export const mockExperiences = Array.from({ length: 20 }, (_, i) => ({
   __v: 0,
 }));
 
+export const mockJobs = Array.from({ length: 20 }, (_, i) => ({
+  _id: `mock-jobs-${i + 1}`,
+  url: `https://remotive-jobs-${i + 1}`,
+  title: `Jobs title ${i + 1}`,
+  company_name: `Company Name ${i + 1}`,
+  category: `category job ${i + 1}`,
+  job_type: `type job ${i + 1}`,
+  candidate_required_location: "USA Only",
+  salary: "",
+  description: `Descrizione del lavoro ${i + 1}`,
+}));
+
 export const mockPosts = Array.from({ length: 20 }, (_, i) => ({
   _id: `mock-post-${i + 1}`,
   text: `Questo è il contenuto del post numero ${i + 1}.`,

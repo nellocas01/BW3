@@ -5,6 +5,7 @@ import { useAppContext } from "../../context/AppContext";
 import { getJobs } from "../../redux/actions";
 import JobsSidebar from "./JobsSidebar";
 import MainJobsContent from "./MainJobsContent";
+import { mockJobs } from "../../mockData";
 
 // Aggiungiamo un po' di stile per lo sfondo, puoi metterlo in un file CSS separato
 const pageStyles = {
@@ -15,7 +16,9 @@ const pageStyles = {
 const JobsPage = () => {
   const dispatch = useDispatch();
   const { setIsLoading, setError } = useAppContext();
-  const jobs = useSelector((state) => state.jobs.content.data);
+  const jobs = useSelector((state) =>
+    state.jobs.content ? state.jobs.content.data : mockJobs
+  );
 
   useEffect(() => {
     dispatch(getJobs(setIsLoading, setError));
@@ -27,7 +30,7 @@ const JobsPage = () => {
         <Row className="g-4">
           {/* Colonna Sinistra */}
           <Col md={4} lg={3}>
-            <JobsSidebar jobs={jobs} />
+            <JobsSidebar jobs={jobs?.[0] || null} />
           </Col>
 
           {/* Colonna Destra */}
