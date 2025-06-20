@@ -1,6 +1,7 @@
 import { Button } from "react-bootstrap";
 import { ArrowDown, PersonAdd } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
+import Avatar from "../../assets/img/avatar.png";
 
 const PeopleComponent = ({ profiles }) => {
   return (
@@ -12,7 +13,7 @@ const PeopleComponent = ({ profiles }) => {
             <div className="d-flex border-bottom mt-3" key={index}>
               <div>
                 <img
-                  src={profile.image}
+                  src={profile.image || Avatar}
                   alt="avatar"
                   width="50"
                   height="50"

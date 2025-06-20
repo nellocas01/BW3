@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import SideComponent from "../SideComponent/index.jsx";
 import ProfilePage from "../ProfilePage/index.jsx";
 
-const MainComponent = () => {
+const MainComponent = ({ profiles }) => {
   return (
     <>
       <Container>
@@ -12,7 +12,7 @@ const MainComponent = () => {
             <ProfilePage />
           </Col>
           <Col md={3}>
-            <SideComponent />
+            <SideComponent profiles={profiles} />
           </Col>
         </Row>
       </Container>

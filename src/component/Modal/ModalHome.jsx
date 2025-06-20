@@ -11,9 +11,14 @@ import {
   PlayBtnFill,
   ThreeDots,
 } from "react-bootstrap-icons";
+import { mockUser } from "../../mockData";
 
 const ModalHome = ({ show, handleCloseHome }) => {
-  const user = useSelector((state) => state.user.content);
+  const user = useSelector((state) =>
+    Array.isArray(state.user.content) && state.user.content.length > 0
+      ? state.user.content
+      : mockUser
+  );
 
   return (
     <>

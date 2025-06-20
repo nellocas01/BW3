@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { mockUser } from "../../mockData";
 
 const ModalExperience = ({ show, handleCloseModalEx }) => {
-  const userId = useSelector(state => state.user._id);
+  const userId = useSelector((state) =>
+    state.user.content._id ? state.user.content._id : mockUser._id
+  );
   const endPoint = `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/`;
   const [experienceData, setExperienceData] = useState({
     role: "",
@@ -15,15 +18,15 @@ const ModalExperience = ({ show, handleCloseModalEx }) => {
     area: "",
   });
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setExperienceData(prevState => ({
+    setExperienceData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     console.log(experienceData);
     if (experienceData.endDate === "") {
@@ -37,7 +40,7 @@ const ModalExperience = ({ show, handleCloseModalEx }) => {
       },
       body: JSON.stringify(experienceData),
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           handleCloseModalEx();
           window.location.reload();
@@ -45,7 +48,7 @@ const ModalExperience = ({ show, handleCloseModalEx }) => {
           throw new Error("Errore durante l'invio dei dati");
         }
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   return (

@@ -1,24 +1,10 @@
 import { Button } from "react-bootstrap";
-// import avatar from "../assets/img/avatar.png";
 import { ArrowDown, PersonAdd } from "react-bootstrap-icons";
-import { useEffect } from "react";
-import { getProfilesAction } from "../../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
 import PeopleComponent from "./PeopleComponent";
-// import PeopleComponent from "./PeopleComponent";
+import Avatar from "../../assets/img/avatar.png";
 
-const SideComponent = () => {
-  const dispatch = useDispatch();
-  const profiles = useSelector((state) => state.profiles.content);
-  const { setIsLoading, setError } = useAppContext();
-
-  useEffect(() => {
-    dispatch(getProfilesAction(setIsLoading, setError));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+const SideComponent = ({ profiles }) => {
   return (
     <>
       <section id="side" className="bg-white rounded-3 mt-4 p-4">
@@ -29,7 +15,7 @@ const SideComponent = () => {
               <div className="d-flex border-bottom mt-3" key={index}>
                 <div>
                   <img
-                    src={profile.image}
+                    src={profile.image || Avatar}
                     alt="avatar"
                     width="50"
                     height="50"

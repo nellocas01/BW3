@@ -1,26 +1,31 @@
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../assets/img/avatar.png";
-import {
-  ArrowsFullscreen,
-  CalendarDate,
-  CardText,
-  ChatText,
-  HandThumbsUp,
-  Image,
-  PlayBtnFill,
-  SendFill,
-  ThreeDots,
-} from "react-bootstrap-icons";
-import { useState } from "react";
+import { CalendarDate, CardText, PlayBtnFill } from "react-bootstrap-icons";
+import { useEffect, useState } from "react";
 import ModalHome from "../Modal/ModalHome";
 import ModalHomeImg from "../Modal/ModalHomeImg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ModalHomeVideo from "../Modal/ModalHomeVideo";
 import ModalHomeEvent from "../Modal/ModalHomeEvent";
+import { mockPosts, mockUser } from "../../mockData";
+import { getPostList } from "../../redux/actions";
+import { useAppContext } from "../../context/AppContext";
+import Keyword from "../../assets/img/Keyword.PNG";
 
 const Home = () => {
-  const user = useSelector((state) => state.user.content);
+  const dispatch = useDispatch();
+  const { setIsLoading, setError } = useAppContext();
+  const user = useSelector((state) =>
+    Array.isArray(state.user.content) && state.user.content.length > 0
+      ? state.user.content
+      : mockUser
+  );
+  const post = useSelector((state) =>
+    Array.isArray(state.post?.content) && state.post.content.length > 0
+      ? state.post.content
+      : mockPosts
+  );
 
   const navigate = useNavigate();
   const navigateHomePage = () => {
@@ -42,200 +47,247 @@ const Home = () => {
   const [showEvent, setShowEvent] = useState(false);
   const handleCloseHomeEvent = () => setShowEvent(false);
   const handleShowHomeEvent = () => setShowEvent(true);
+
+  useEffect(() => {
+    dispatch(getPostList(setIsLoading, setError));
+  }, []);
+
   return (
     <>
       {/* CONTAINER GENERALE */}
-      <div className="d-flex align-items-start mt-3 justify-content-center">
-        {/* COLONNA SINISTRA */}
-        <div className="mx-3">
-          <div className="mx-3 bg-white border rounded p-4">
-            <div className="">
-              <img
-                id="avatar"
-                src={avatar}
-                alt="Avatar"
-                className="rounded-circle d-flex mx-auto"
-                onClick={navigateHomePage}
-              />
-              <Link
-                className="d-flex justify-content-center my-4"
-                onClick={navigateHomePage}
-              >
-                {user.name} {user.surname}
-              </Link>
-              <p>Studente</p>
-              {/* dinamicizzare i p */}
-            </div>
-            <hr></hr>
-            <div>
-              <p>collegamenti</p>
-            </div>
-            <hr></hr>
-            <div>
-              <p>Accedi a strumenti e info</p>
-            </div>
-            <hr></hr>
-            <div>
-              icons
-              <span>I miei elementi</span>
-            </div>
-          </div>
-          <div className="mx-3 mt-3 bg-white border rounded p-4">
-            <p>Gruppi</p>
-            <p>Eventi</p>
-            <p>Hashtag più seguiti</p>
-            <hr></hr>
-            <Button>Scopri di più</Button>
-          </div>
-        </div>
-        <div>
-          {/* COLONNA CENTRALE */}
-          <div className="bg-white border rounded">
-            <div className="m-3">
-              <div className="d-flex mb-3">
-                <Link>
-                  <div className="m-2">
-                    <img
-                      id="avatar"
-                      src={avatar}
-                      alt="Avatar"
-                      className="rounded-circle"
-                      onClick={navigateHomePage}
-                    />
-                  </div>
+      {/* <div className="d-flex align-items-start mt-3 justify-content-center"> */}
+      <Container className="mt-4">
+        <Row>
+          {/* COLONNA SINISTRA */}
+          <Col md={3}>
+            <Card className="mb-3">
+              <Card.Body className="text-center">
+                <img
+                  id="avatar"
+                  src={avatar}
+                  alt="Avatar"
+                  className="rounded-circle d-flex mx-auto"
+                  onClick={navigateHomePage}
+                />
+                <Link
+                  className="d-flex justify-content-center my-4"
+                  onClick={navigateHomePage}
+                >
+                  <Card.Title>
+                    {user.name} {user.surname}
+                  </Card.Title>
                 </Link>
-                <Button
-                  className="border"
-                  variant="light"
-                  onClick={handleShowHome}
-                >
-                  <span className="text-secondary">Avvia un post</span>
-                </Button>
-                <ModalHome show={show} handleCloseHome={handleCloseHome} />
-              </div>
-              <div>
-                <Button
-                  variant="white"
-                  className="p-0 mx-2"
-                  onClick={handleShowHomeImg}
-                >
-                  <Image className="text-primary" />
-                  <span className="mx-2 text-secondary">Foto</span>
-                </Button>
-                <ModalHomeImg
-                  showImg={showImg}
-                  handleCloseHomeImg={handleCloseHomeImg}
-                />
-                <Button
-                  variant="white"
-                  className="p-0 mx-2"
-                  onClick={handleShowHomeVideo}
-                >
-                  <PlayBtnFill className="text-success" />
-                  <span className="mx-2 text-secondary">Video</span>
-                </Button>
-                <ModalHomeVideo
-                  showVideo={showVideo}
-                  handleCloseHomeVideo={handleCloseHomeVideo}
-                />
-                <Button
-                  variant="white"
-                  className="p-0 mx-2"
-                  onClick={handleShowHomeEvent}
-                >
-                  <CalendarDate className="text-warning" />
-                  <span className="mx-2 text-secondary">Evento</span>
-                </Button>
-                <ModalHomeEvent
-                  showEvent={showEvent}
-                  handleCloseHomeEvent={handleCloseHomeEvent}
-                />
-                <Button variant="white" className="p-0 mx-2">
-                  <CardText className="text-danger" />
-                  <span className="mx-2 text-secondary">
-                    Scrivi un articolo
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-          <Row className="align-items-center">
-            <Col xs={8}>
-              <hr></hr>
-            </Col>
-            <Col xs={4} className="text-center fs-6">
-              Ordina per: principali
-            </Col>
-          </Row>
-          <div className="bg-white border rounded mt-3">
-            <div className="m-3">
-              <div className="d-flex mb-3">
-                <img src={avatar} alt="" width={80} />
-                <div>
-                  <Link>Acquatech</Link>
-                  <p>8.118 follower</p>
-                  <p>Post sponsorizzato</p>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {user.title}
+                </Card.Subtitle>
+                <Card.Text>{user.area}</Card.Text>
+                <hr />
+                <div className="d-flex justify-content-between">
+                  <span>Visualizzazioni del profilo</span>
+                  <span>35</span>
                 </div>
-                <Button className="ms-auto" variant="white">
-                  <ThreeDots />
-                </Button>
-              </div>
-              <p>
-                Explore water business opportunity for the pizza in the pasta
-              </p>
-              <div>
-                <div>
-                  <img src={avatar} alt="" width={400} />
+                <div className="d-flex justify-content-between">
+                  <span>Visualizza tutte le analisi</span>
                 </div>
-                <div>
-                  <Link>acquatechrade.com</Link>
-                  <br />
-                  <span className="me-5">Acquatech China: 5-7 June 2023</span>
-                  <Button className="ms-5">Scopri di più</Button>
-                </div>
-              </div>
-              <div>
-                36
-                <HandThumbsUp className="me-5" />
-                <span className="ms-5">1 diffusione post</span>
-              </div>
-              <hr></hr>
-              <div>
-                <Button variant="white">
-                  <HandThumbsUp />
-                  <span className="mx-2">Consiglia</span>
-                </Button>
-                <Button variant="white">
-                  <ChatText />
-                  <span className="mx-2">Commenta</span>
-                </Button>
-                <Button variant="white">
-                  <ArrowsFullscreen />
-                  <span className="mx-2">Diffondi il post</span>
-                </Button>
-                <Button variant="white">
-                  <SendFill />
-                  <span className="mx-2">Invia</span>
-                </Button>
-              </div>
-              <p>ℹ️ Scrivi il tuo primo commento</p>
-            </div>
-          </div>
-        </div>
+              </Card.Body>
+            </Card>
 
-        {/* COLONNA DESTRA */}
-        <div className="mx-3">
-          <div className="mx-3 bg-white border rounded p-4">
-            <div>
-              <h5>Linkedin Notizie</h5>
-              <ul>
-                <li>Le top Companies del 2023 in Italia</li>
-              </ul>
-              <Button>Visualizza altro</Button>
+            <Card className="mb-3">
+              <Card.Body>
+                <h6>Elementi salvati</h6>
+                <h6>Gruppi</h6>
+                <h6>Newsletter</h6>
+                <h6>Eventi</h6>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          {/* COLONNA CENTRALE */}
+          <Col md={6}>
+            <div className="bg-white border rounded">
+              <div className="m-3">
+                <div className="d-flex mb-3">
+                  <Link>
+                    <div className="m-2">
+                      <img
+                        id="avatar"
+                        src={avatar}
+                        alt="Avatar"
+                        className="rounded-circle"
+                        onClick={navigateHomePage}
+                      />
+                    </div>
+                  </Link>
+                  <Button
+                    className="border"
+                    variant="light"
+                    onClick={handleShowHome}
+                  >
+                    <span className="text-secondary">Avvia un post</span>
+                  </Button>
+                  <ModalHome show={show} handleCloseHome={handleCloseHome} />
+                </div>
+                <div>
+                  <Button
+                    variant="white"
+                    className="p-0 mx-2"
+                    onClick={handleShowHomeImg}
+                  >
+                    <Image className="text-primary" />
+                    <span className="mx-2 text-secondary">Foto</span>
+                  </Button>
+                  <ModalHomeImg
+                    showImg={showImg}
+                    handleCloseHomeImg={handleCloseHomeImg}
+                  />
+                  <Button
+                    variant="white"
+                    className="p-0 mx-2"
+                    onClick={handleShowHomeVideo}
+                  >
+                    <PlayBtnFill className="text-success" />
+                    <span className="mx-2 text-secondary">Video</span>
+                  </Button>
+                  <ModalHomeVideo
+                    showVideo={showVideo}
+                    handleCloseHomeVideo={handleCloseHomeVideo}
+                  />
+                  <Button
+                    variant="white"
+                    className="p-0 mx-2"
+                    onClick={handleShowHomeEvent}
+                  >
+                    <CalendarDate className="text-warning" />
+                    <span className="mx-2 text-secondary">Evento</span>
+                  </Button>
+                  <ModalHomeEvent
+                    showEvent={showEvent}
+                    handleCloseHomeEvent={handleCloseHomeEvent}
+                  />
+                  <Button variant="white" className="p-0 mx-2">
+                    <CardText className="text-danger" />
+                    <span className="mx-2 text-secondary">
+                      Scrivi un articolo
+                    </span>
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+            <Row className="align-items-center">
+              <Col xs={8}>
+                <hr></hr>
+              </Col>
+              <Col xs={4} className="text-center fs-6">
+                Ordina per: principali
+              </Col>
+            </Row>
+
+            {post
+              .filter((p) => p && p.username)
+              .map((posts) => {
+                return (
+                  <Card className="mb-3" key={posts._id}>
+                    <Card.Body>
+                      <div className="d-flex align-items-center mb-2">
+                        <img src={avatar} alt="" width={80} />
+
+                        <div style={{ marginLeft: "auto" }}>
+                          <Card.Title className="mb-2">
+                            {posts.username}
+                          </Card.Title>
+                          <Card.Subtitle className="text-muted">
+                            {posts.job}
+                          </Card.Subtitle>
+                        </div>
+                      </div>
+                      <Card.Text>{posts.text}</Card.Text>
+
+                      <div className="mb-2">
+                        <small className="text-primary me-2">
+                          #SoftwareEngineering
+                        </small>
+                        <small className="text-primary me-2">#Developers</small>
+                        <small className="text-primary">#Memes</small>
+                      </div>
+                      <Card.Link href="#">Mostra traduzione</Card.Link>
+                      <hr />
+                      <div className="d-flex justify-content-around">
+                        <Button variant="link">Mi piace</Button>
+                        <Button variant="link">Commenta</Button>
+                        <Button variant="link">Condividi</Button>
+                        <Button variant="link">Invia</Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                );
+              })}
+            {/* Altri elementi centrali come l'annuncio di lavoro */}
+            <Card className="mb-3">
+              <Card.Body>
+                <Card.Title className="text-center">
+                  • Minimum of 4 years
+                </Card.Title>
+                <Card.Title className="text-center">
+                  of experience is required
+                </Card.Title>
+                <Card.Text className="text-center">
+                  Interested? Send your resume
+                  <br />
+                  to <a href="mailto:careers@localhost">careers@localhost</a>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          {/* COLONNA DESTRA */}
+          <Col md={3}>
+            <Card className="mb-3">
+              <Card.Body>
+                <Card.Title>LinkedIn Notizie</Card.Title>
+                <ul className="list-unstyled">
+                  <li>
+                    <a href="#">Quanti sono i rifugiati in Italia</a>
+                  </li>
+                  <li>
+                    <a href="#">Putin ha le prime 100 università al mondo</a>
+                  </li>
+                  <li>
+                    <a href="#">Via libera Ue per Unicredit Banca Bpm</a>
+                  </li>
+                  <li>
+                    <a href="#">Perché il lusso continua a rallentare</a>
+                  </li>
+                  <li>
+                    <a href="#">Nuovo esonero contributivo per ilary</a>
+                  </li>
+                </ul>
+                <Button variant="link">Mostra altro</Button>
+              </Card.Body>
+            </Card>
+
+            <Card className="mb-3">
+              <Card.Body>
+                <Card.Title>Il rompicapo di oggi</Card.Title>
+                <div className="d-flex align-items-center">
+                  <Image src={Keyword} className="me-2" />
+                  <span>Zip - un rompicapo veloce</span>
+                </div>
+              </Card.Body>
+            </Card>
+
+            <Card className="mb-3 text-center">
+              <Card.Body>
+                <Card.Text>Annuncio</Card.Text>
+                <Image src={avatar} width={80} roundedCircle className="mb-2" />
+                <Card.Text>
+                  Boost your job search with Ai-powered insights
+                </Card.Text>
+                <Button variant="primary">Redeem offer</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

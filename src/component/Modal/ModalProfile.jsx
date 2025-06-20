@@ -2,9 +2,14 @@ import { Modal } from "react-bootstrap";
 import { Envelope, Linkedin } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { mockUser } from "../../mockData";
 
 const ModalProfile = ({ show, handleClose }) => {
-  const user = useSelector((state) => state.user.content);
+  const user = useSelector((state) =>
+    Array.isArray(state.user.content) && state.user.content.length > 0
+      ? state.user.content
+      : mockUser
+  );
 
   return (
     <>

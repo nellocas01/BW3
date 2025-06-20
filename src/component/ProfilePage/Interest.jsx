@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { ArrowRight } from "react-bootstrap-icons";
 import SectionWrapper from "./SectionWrapper";
+import Logo from "../../assets/img/Keyword.PNG";
 
 const Interests = () => {
   const interests = {
@@ -10,13 +11,13 @@ const Interests = () => {
         id: 1,
         name: "Minsat",
         followers: "120.023 follower",
-        logo: "https://via.placeholder.com/48/FF0000/FFFFFF?text=M",
+        logo: Logo,
       },
       {
         id: 2,
         name: "IKON Digital Farm",
         followers: "3.687 follower",
-        logo: "https://via.placeholder.com/48/0000FF/FFFFFF?text=I",
+        logo: Logo,
       },
     ],
     groups: [],

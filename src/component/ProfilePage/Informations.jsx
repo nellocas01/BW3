@@ -2,9 +2,14 @@ import { Pencil } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import SectionWrapper from "./SectionWrapper";
 import { Button } from "react-bootstrap";
+import { mockUser } from "../../mockData";
 
 const Informations = () => {
-  const user = useSelector((state) => state.user.content);
+  const user = useSelector((state) =>
+    Array.isArray(state.user.content) && state.user.content.length > 0
+      ? state.user.content
+      : mockUser
+  );
 
   return (
     <SectionWrapper>

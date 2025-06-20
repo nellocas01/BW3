@@ -5,10 +5,15 @@ import SideComponent from "../SideComponent";
 import { useSelector } from "react-redux";
 import ExperienceSection from "./ExperienceSection";
 import PeopleComponent from "../SideComponent/PeopleComponent";
+import { mockExperiences } from "../../mockData";
 
 const ExperiencesPageComponents = () => {
   const navigate = useNavigate();
-  const experience = useSelector(state => state.experience.content);
+  const experience = useSelector((state) =>
+    Array.isArray(state.experience.content) && state.experience.content > 0
+      ? state.experience.content
+      : mockExperiences
+  );
 
   const navigateToHome = () => {
     navigate("/");
@@ -22,13 +27,18 @@ const ExperiencesPageComponents = () => {
           <section className="mt-4 rounded-3 border-dark profile p-3">
             <div className="d-flex">
               <div className="d-flex justify-content-start align-items-center">
-                <Button variant="light" onClick={navigateToHome} className="rounded-pill my-2">
+                <Button
+                  variant="light"
+                  onClick={navigateToHome}
+                  className="rounded-pill my-2"
+                >
                   <ArrowLeft className="fs-2" />
                 </Button>
                 <h3 className="ms-3">Esperienze</h3>
               </div>
             </div>
-            {experience && experience.map(item => <ExperienceSection item={item} />)}
+            {experience &&
+              experience.map((item) => <ExperienceSection item={item} />)}
           </section>
         </Col>
         <Col md={3}>

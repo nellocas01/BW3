@@ -1,18 +1,18 @@
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { PlusLg, Pencil } from "react-bootstrap-icons";
 import SectionWrapper from "./SectionWrapper";
+import Logo from "../../assets/img/Keyword.PNG";
 
 const Featured = () => {
-
   const featuredItems = [
     {
       id: 1,
       type: "video",
-      thumbnail: "https://via.placeholder.com/150", 
+      thumbnail: Logo,
       title:
         "Il mio progetto finale presentato al termine del corso FULL-STACK…",
-      link: "https://www.youtube.com/watch?v=yourvideoid", 
-      date: "DD 20230725", 
+      link: "https://www.youtube.com/watch?v=yourvideoid",
+      date: "DD 20230725",
       author: "Nello Casolla",
     },
   ];
