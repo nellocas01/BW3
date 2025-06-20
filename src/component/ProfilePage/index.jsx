@@ -33,7 +33,7 @@ export default () => {
     state.user.content._id ? state.user.content._id : mockUser._id
   );
   const experience = useSelector((state) =>
-    Array.isArray(state.experience.content) && state.experience.content > 0
+    Array.isArray(state.experience.content) && state.experience.content.length > 0
       ? state.experience.content
       : mockExperiences
   );

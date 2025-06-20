@@ -11,6 +11,7 @@ import { mockProfiles } from "./mockData";
 import { useAppContext } from "./context/AppContext";
 import { useEffect } from "react";
 import { getProfilesAction } from "./redux/actions";
+import JobsPage from "./component/JobPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,10 +31,11 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Main profiles={profiles}/>} />
+        <Route path="/" element={<Main profiles={profiles} />} />
         <Route path="/:id" element={<Main />} />
         <Route path="/experience" element={<ExperiencesPage />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/jobs" element={<JobsPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

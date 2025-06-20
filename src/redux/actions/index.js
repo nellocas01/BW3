@@ -3,9 +3,8 @@ const endpointProfile = "https://striveschool-api.herokuapp.com/api/profile/";
 const endpointUserProfile =
   "https://striveschool-api.herokuapp.com/api/profile/me";
 const endpointPosts = "https://striveschool-api.herokuapp.com/api/posts/";
-const endpointPost =
-  "https://striveschool-api.herokuapp.com/api/posts/{postId}";
 const endpointComments = "https://striveschool-api.herokuapp.com/api/comments/";
+const endpointJobs = "https://strive-benchmark.herokuapp.com/api/jobs";
 
 export const GET_USER_PROFILE = "GET_USER_PROFILE";
 export const GET_SELECTED_PROFILE = "GET_SELECTED_PROFILE";
@@ -15,6 +14,7 @@ export const DELETE_USER_EXPERIENCE = "DELETE_USER_EXPERIENCE";
 export const GET_PROFILES = "GET_PROFILES";
 export const GET_POSTS = "GET_POSTS";
 export const GET_COMMENTS = "GET_COMMENTS";
+export const GET_JOBS = "GET_JOBS";
 
 export const getUserProfileAction = (setIsLoading, setError) => {
   return async (dispatch, getState) => {
@@ -232,6 +232,31 @@ export const getComments = (setIsLoading, setError) => {
         dispatch({ type: GET_COMMENTS, payload: data });
       } else {
         throw new Error("Errore nel recupero dei commenti");
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
+    }
+  };
+};
+
+export const getJobs = (setIsLoading, setError) => {
+  return async (dispatch, getState) => {
+    try {
+      setIsLoading(true, "Caricamento jobs in corso...");
+      const response = await fetch(endpointJobs, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        dispatch({ type: GET_JOBS, payload: data });
+      } else {
+        throw new Error("Errore nel recupero dei jobs");
       }
     } catch (error) {
       setError(error);

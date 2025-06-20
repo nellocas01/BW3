@@ -10,7 +10,7 @@ import { mockExperiences } from "../../mockData";
 const ExperiencesPageComponents = () => {
   const navigate = useNavigate();
   const experience = useSelector((state) =>
-    Array.isArray(state.experience.content) && state.experience.content > 0
+    Array.isArray(state.experience.content) && state.experience.content.length > 0
       ? state.experience.content
       : mockExperiences
   );

@@ -8,7 +8,7 @@ const ModalExperience = ({ show, handleCloseModalEx }) => {
   const userId = useSelector((state) =>
     state.user.content._id ? state.user.content._id : mockUser._id
   );
-  const endPoint = `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/`;
+  const endPoint = `https://striveschool-api.herokuapp.com/api/profile/:${userId}/experiences`;
   const [experienceData, setExperienceData] = useState({
     role: "",
     company: "",
