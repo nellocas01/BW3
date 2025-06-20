@@ -76,8 +76,32 @@ export const mockPosts = Array.from({ length: 20 }, (_, i) => ({
   __v: 0,
 }));
 
-export const mockComments = Array.from({ length: 20 }, (_, i) => ({
-  comment: `Commento fittizio numero ${i + 1}`,
-  rate: `${(i % 5) + 1}`, // valori da 1 a 5
-  postId: `mock-post-${(i % 10) + 1}`,
-}));
+const getRandomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+const generateRandomDate = () => {
+  const now = Date.now();
+  const offset = getRandomInt(0, 1000 * 60 * 60 * 24 * 90); // ultimi 90 giorni
+  return new Date(now - offset).toISOString();
+};
+
+const generateRandomEmail = () => `utente${getRandomInt(1, 1000)}@email.com`;
+
+export const mockComments = [];
+
+mockPosts.forEach((post, i) => {
+  const numComments = getRandomInt(0, 10 + i); // può generare da 0 a N commenti
+  for (let j = 0; j < numComments; j++) {
+    const date = generateRandomDate();
+    mockComments.push({
+      _id: `mock-comment-${i + 1}-${j + 1}`,
+      comment: `Commento ${j + 1} al post "${post.text}"`,
+      rate: getRandomInt(1, 5),
+      elementId: post._id, // <-- collegamento corretto al post
+      author: generateRandomEmail(),
+      createdAt: date,
+      updatedAt: date,
+      __v: 0,
+    });
+  }
+});

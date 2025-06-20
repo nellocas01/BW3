@@ -8,8 +8,8 @@ import ModalHomeImg from "../Modal/ModalHomeImg";
 import { useDispatch, useSelector } from "react-redux";
 import ModalHomeVideo from "../Modal/ModalHomeVideo";
 import ModalHomeEvent from "../Modal/ModalHomeEvent";
-import { mockPosts, mockUser } from "../../mockData";
-import { getPostList } from "../../redux/actions";
+import { mockComments, mockPosts, mockUser } from "../../mockData";
+import { getComments, getPostList } from "../../redux/actions";
 import { useAppContext } from "../../context/AppContext";
 import Keyword from "../../assets/img/Keyword.PNG";
 
@@ -22,9 +22,14 @@ const Home = () => {
       : mockUser
   );
   const post = useSelector((state) =>
-    Array.isArray(state.post?.content) && state.post.content.length > 0
-      ? state.post.content
+    Array.isArray(state.posts?.content) && state.posts.content.length > 0
+      ? state.posts.content
       : mockPosts
+  );
+  const comment = useSelector((state) =>
+    Array.isArray(state.comments?.content) && state.comments.content.length > 0
+      ? state.comments.content
+      : mockComments
   );
 
   const navigate = useNavigate();
@@ -50,12 +55,18 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getPostList(setIsLoading, setError));
+    dispatch(getComments(setIsLoading, setError));
   }, []);
+
+  const commentByPost = comment.reduce((acc, c) => {
+    if (!acc[c.elementId]) acc[c.elementId] = [];
+    acc[c.elementId].push(c);
+    return acc;
+  }, {});
 
   return (
     <>
       {/* CONTAINER GENERALE */}
-      {/* <div className="d-flex align-items-start mt-3 justify-content-center"> */}
       <Container className="mt-4">
         <Row>
           {/* COLONNA SINISTRA */}
@@ -185,6 +196,7 @@ const Home = () => {
             {post
               .filter((p) => p && p.username)
               .map((posts) => {
+                const postComments = commentByPost[posts._id] || [];
                 return (
                   <Card className="mb-3" key={posts._id}>
                     <Card.Body>
@@ -211,6 +223,25 @@ const Home = () => {
                       </div>
                       <Card.Link href="#">Mostra traduzione</Card.Link>
                       <hr />
+
+                      {/* SEZIONE COMMENTI */}
+                      {postComments.length > 0 && (
+                        <div className="mb-3">
+                          <strong>Commenti:</strong>
+                          <ul className="list-unstyled mt-2">
+                            {postComments.map((c, idx) => (
+                              <li key={idx} className="mb-2">
+                                <div>
+                                  <strong>Voto:</strong> {c.rate}/5
+                                </div>
+                                <div>{c.comment}</div>
+                              </li>
+                            ))}
+                          </ul>
+                          <hr />
+                        </div>
+                      )}
+
                       <div className="d-flex justify-content-around">
                         <Button variant="link">Mi piace</Button>
                         <Button variant="link">Commenta</Button>
