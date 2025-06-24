@@ -4,10 +4,7 @@ import avatar from "../../assets/img/avatar.png";
 import { CalendarDate, CardText, PlayBtnFill } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
 import ModalHome from "../Modal/ModalHome";
-import ModalHomeImg from "../Modal/ModalHomeImg";
 import { useDispatch, useSelector } from "react-redux";
-import ModalHomeVideo from "../Modal/ModalHomeVideo";
-import ModalHomeEvent from "../Modal/ModalHomeEvent";
 import { mockComments, mockPosts, mockUser } from "../../mockData";
 import { getComments, getPostList } from "../../redux/actions";
 import { useAppContext } from "../../context/AppContext";
@@ -40,18 +37,6 @@ const Home = () => {
   const [show, setShow] = useState(false);
   const handleCloseHome = () => setShow(false);
   const handleShowHome = () => setShow(true);
-
-  const [showImg, setShowImg] = useState(false);
-  const handleCloseHomeImg = () => setShowImg(false);
-  const handleShowHomeImg = () => setShowImg(true);
-
-  const [showVideo, setShowVideo] = useState(false);
-  const handleCloseHomeVideo = () => setShowVideo(false);
-  const handleShowHomeVideo = () => setShowVideo(true);
-
-  const [showEvent, setShowEvent] = useState(false);
-  const handleCloseHomeEvent = () => setShowEvent(false);
-  const handleShowHomeEvent = () => setShowEvent(true);
 
   useEffect(() => {
     dispatch(getPostList(setIsLoading, setError));
@@ -139,42 +124,14 @@ const Home = () => {
                   <ModalHome show={show} handleCloseHome={handleCloseHome} />
                 </div>
                 <div>
-                  <Button
-                    variant="white"
-                    className="p-0 mx-2"
-                    onClick={handleShowHomeImg}
-                  >
-                    <Image className="text-primary" />
-                    <span className="mx-2 text-secondary">Foto</span>
-                  </Button>
-                  <ModalHomeImg
-                    showImg={showImg}
-                    handleCloseHomeImg={handleCloseHomeImg}
-                  />
-                  <Button
-                    variant="white"
-                    className="p-0 mx-2"
-                    onClick={handleShowHomeVideo}
-                  >
+                  <Button variant="white" className="p-0 mx-2">
                     <PlayBtnFill className="text-success" />
                     <span className="mx-2 text-secondary">Video</span>
                   </Button>
-                  <ModalHomeVideo
-                    showVideo={showVideo}
-                    handleCloseHomeVideo={handleCloseHomeVideo}
-                  />
-                  <Button
-                    variant="white"
-                    className="p-0 mx-2"
-                    onClick={handleShowHomeEvent}
-                  >
+                  <Button variant="white" className="p-0 mx-2">
                     <CalendarDate className="text-warning" />
                     <span className="mx-2 text-secondary">Evento</span>
                   </Button>
-                  <ModalHomeEvent
-                    showEvent={showEvent}
-                    handleCloseHomeEvent={handleCloseHomeEvent}
-                  />
                   <Button variant="white" className="p-0 mx-2">
                     <CardText className="text-danger" />
                     <span className="mx-2 text-secondary">
@@ -195,6 +152,7 @@ const Home = () => {
 
             {post
               .filter((p) => p && p.username)
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
               .map((posts) => {
                 const postComments = commentByPost[posts._id] || [];
                 return (
@@ -210,6 +168,12 @@ const Home = () => {
                           <Card.Subtitle className="text-muted">
                             {posts.job}
                           </Card.Subtitle>
+                          <small className="text-muted">
+                            Pubblicato il{" "}
+                            {new Date(posts.createdAt).toLocaleDateString(
+                              "it-IT"
+                            )}
+                          </small>
                         </div>
                       </div>
                       <Card.Text>{posts.text}</Card.Text>

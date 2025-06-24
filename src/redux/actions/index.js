@@ -9,10 +9,12 @@ const endpointJobs = "https://strive-benchmark.herokuapp.com/api/jobs";
 export const GET_USER_PROFILE = "GET_USER_PROFILE";
 export const GET_SELECTED_PROFILE = "GET_SELECTED_PROFILE";
 export const GET_USER_EXPERIENCE = "GET_USER_EXPERIENCE";
-export const SET_USER_EXPERIENCE = "SET_USER_EXPERIENCE";
+export const ADD_USER_EXPERIENCE = "ADD_USER_EXPERIENCE";
+export const EDIT_USER_EXPERIENCE = "EDIT_USER_EXPERIENCE";
 export const DELETE_USER_EXPERIENCE = "DELETE_USER_EXPERIENCE";
 export const GET_PROFILES = "GET_PROFILES";
 export const GET_POSTS = "GET_POSTS";
+export const ADD_POSTS = "ADD_POSTS";
 export const GET_COMMENTS = "GET_COMMENTS";
 export const GET_JOBS = "GET_JOBS";
 
@@ -85,7 +87,6 @@ export const getUserExperienceAction = (userId, setIsLoading, setError) => {
           Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
         },
       });
-      console.log("fetch experience profile");
 
       if (resp.ok) {
         const data = await resp.json();
@@ -102,30 +103,7 @@ export const getUserExperienceAction = (userId, setIsLoading, setError) => {
   };
 };
 
-// export const getUserExperienceAction = userId => {
-//   return async (dispatch, getState) => {
-//     try {
-//       let resp = await fetch(endpointProfile + userId + "/experiences", {
-//         headers: {
-//           Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-//         },
-//       });
-//       console.log("fetch experience profile");
-
-//       if (resp.ok) {
-//         const data = await resp.json();
-
-//         dispatch({ type: GET_USER_EXPERIENCE, payload: data });
-//       } else {
-//         console.log("errore");
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// };
-
-export const setUserExperienceAction = (
+export const addUserExperienceAction = (
   userId,
   experienceData,
   setIsLoading,
@@ -134,7 +112,7 @@ export const setUserExperienceAction = (
   return async (dispatch, getState) => {
     try {
       setIsLoading(true, "Aggiunta esperienza utente in corso...");
-      const resp = await fetch(endpointProfile + userId + "/experiences", {
+      const resp = await fetch(`${endpointProfile}:${userId}/experiences`, {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -144,7 +122,7 @@ export const setUserExperienceAction = (
       });
       const data = await resp.json();
       dispatch({
-        type: "SET_USER_EXPERIENCE",
+        type: ADD_USER_EXPERIENCE,
         payload: data,
       });
     } catch (error) {
@@ -155,10 +133,79 @@ export const setUserExperienceAction = (
   };
 };
 
-export const deleteUserExperienceAction = (value) => ({
-  type: DELETE_USER_EXPERIENCE,
-  payload: value,
-});
+export const editUserExperienceAction = (
+  userId,
+  experienceId,
+  experienceData,
+  setIsLoading,
+  setError
+) => {
+  return async (dispatch, getState) => {
+    try {
+      setIsLoading(true, "Modifica esperienza utente in corso...");
+      const resp = await fetch(
+        `${endpointProfile}${userId}/experiences/${experienceId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+          },
+          body: JSON.stringify(experienceData),
+        }
+      );
+      if (resp.ok) {
+        const data = await resp.json();
+        dispatch({
+          type: EDIT_USER_EXPERIENCE,
+          payload: data,
+        });
+      } else {
+        throw new Error("Errore durante la modifica dell'esperienza");
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
+    }
+  };
+};
+
+export const deleteUserExperienceAction = (
+  userId,
+  experienceId,
+  setIsLoading,
+  setError
+) => {
+  return async (dispatch, getState) => {
+    try {
+      setIsLoading(true, "Elimina esperienza utente in corso...");
+      const resp = await fetch(
+        `${endpointProfile}${userId}/experiences/${experienceId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+          },
+        }
+      );
+      if (resp.ok) {
+        const data = await resp.json();
+        dispatch({
+          type: DELETE_USER_EXPERIENCE,
+          payload: data,
+        });
+      } else {
+        throw new Error("Errore durante la cancellazione dell'esperienza");
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
+    }
+  };
+};
 
 // GET USERS PROFILE TO SIDEBAR
 export const getProfilesAction = (setIsLoading, setError) => {
@@ -215,6 +262,34 @@ export const getPostList = (setIsLoading, setError) => {
   };
 };
 
+export const addPost = (text, setIsLoading, setError) => {
+  return async (dispatch, getState) => {
+    try {
+      setIsLoading(true, "Aggiunta del post in corso...");
+
+      const response = await fetch(endpointPosts, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
+        },
+        body: JSON.stringify({ text }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        dispatch({ type: ADD_POSTS, payload: data });
+      } else {
+        throw new Error("Errore nell'aggiunta del post");
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false, "");
+    }
+  };
+};
+
 export const getComments = (setIsLoading, setError) => {
   return async (dispatch, getState) => {
     try {
@@ -241,11 +316,19 @@ export const getComments = (setIsLoading, setError) => {
   };
 };
 
-export const getJobs = (setIsLoading, setError) => {
+export const getJobs = (setIsLoading, setError, filterType, value) => {
   return async (dispatch, getState) => {
     try {
       setIsLoading(true, "Caricamento jobs in corso...");
-      const response = await fetch(endpointJobs, {
+      let endpoint = endpointJobs;
+      if (filterType === "search") {
+        endpoint += `?search=${value}`;
+      } else if (filterType === "company") {
+        endpoint += `?company=${value}`;
+      } else if (filterType === "category") {
+        endpoint += `?category=${value}&limit=10`;
+      }
+      const response = await fetch(endpoint, {
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",

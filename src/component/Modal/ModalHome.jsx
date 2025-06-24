@@ -1,6 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 import avatar from "../../assets/img/avatar.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ChatText,
   Clock,
@@ -12,13 +12,27 @@ import {
   ThreeDots,
 } from "react-bootstrap-icons";
 import { mockUser } from "../../mockData";
+import { useAppContext } from "../../context/AppContext";
+import { addPost } from "../../redux/actions";
+import { useState } from "react";
 
 const ModalHome = ({ show, handleCloseHome }) => {
+  const dispatch = useDispatch();
+  const { setIsLoading, setError } = useAppContext();
+  const [postText, setPostText] = useState("");
   const user = useSelector((state) =>
     Array.isArray(state.user.content) && state.user.content.length > 0
       ? state.user.content
       : mockUser
   );
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (postText.trim()) {
+      dispatch(addPost(postText, setIsLoading, setError));
+      handleCloseHome();
+    }
+  };
 
   return (
     <>
@@ -46,7 +60,10 @@ const ModalHome = ({ show, handleCloseHome }) => {
               type="text"
               className="form-control p-0 border-white"
               id="floatingInput"
+              value={postText}
+              onChange={(e) => setPostText(e.target.value)}
             />
+
             <label className="p-0">Di cosa vorresti parlare?</label>
           </div>
           <Button variant="white">
@@ -73,7 +90,7 @@ const ModalHome = ({ show, handleCloseHome }) => {
             <Button variant="light" className="p-0 ms-5">
               <Clock className="text-secondary ms-auto" />
             </Button>
-            <Button variant="secondary" className="mx-1">
+            <Button variant="secondary" className="mx-1" onClick={handleAdd}>
               Pubblica
             </Button>
           </div>

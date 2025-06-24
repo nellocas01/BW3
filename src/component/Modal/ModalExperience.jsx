@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { mockUser } from "../../mockData";
+import {
+  getUserExperienceAction,
+  addUserExperienceAction,
+} from "../../redux/actions";
+import { useAppContext } from "../../context/AppContext";
 
 const ModalExperience = ({ show, handleCloseModalEx }) => {
+  const dispatch = useDispatch();
+  const { setIsLoading, setError } = useAppContext();
   const userId = useSelector((state) =>
     state.user.content._id ? state.user.content._id : mockUser._id
   );
-  const endPoint = `https://striveschool-api.herokuapp.com/api/profile/:${userId}/experiences`;
   const [experienceData, setExperienceData] = useState({
     role: "",
     company: "",
@@ -32,23 +38,11 @@ const ModalExperience = ({ show, handleCloseModalEx }) => {
     if (experienceData.endDate === "") {
       setExperienceData.endDate = "null";
     }
-    fetch(endPoint, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-      },
-      body: JSON.stringify(experienceData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          handleCloseModalEx();
-          window.location.reload();
-        } else {
-          throw new Error("Errore durante l'invio dei dati");
-        }
-      })
-      .catch((error) => console.log(error));
+    dispatch(
+      addUserExperienceAction(userId, experienceData, setIsLoading, setError)
+    );
+    dispatch(getUserExperienceAction(userId, setIsLoading, setError));
+    handleCloseModalEx();
   };
 
   return (

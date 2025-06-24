@@ -1,13 +1,20 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { Alert, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { mockUser } from "../../mockData";
+import {
+  deleteUserExperienceAction,
+  editUserExperienceAction,
+  getUserExperienceAction,
+} from "../../redux/actions";
+import { useAppContext } from "../../context/AppContext";
 
 const ModalExperienceDeletePut = ({ show, handleCloseModalEx, experience }) => {
+  const dispatch = useDispatch();
+  const { setIsLoading, setError } = useAppContext();
   const userId = useSelector((state) =>
     state.user.content._id ? state.user.content._id : mockUser._id
   );
-  const endPoint = `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/`;
   const [experienceItem, setExperienceItem] = useState({
     role: "",
     company: "",
@@ -16,18 +23,18 @@ const ModalExperienceDeletePut = ({ show, handleCloseModalEx, experience }) => {
     description: "",
     area: "",
   });
+
   useEffect(() => {
     setExperienceItem({
       role: experience.role,
       company: experience.company,
-      startDate: new Date(experience.startDate).toLocaleDateString(),
-      endDate: new Date(experience.endDate).toLocaleDateString(),
+      startDate: experience.startDate?.slice(0, 10) || "",
+      endDate: experience.endDate?.slice(0, 10) || "",
       description: experience.description,
       area: experience.area,
     });
   }, [experience]);
-  console.log(experienceItem);
-  console.log(endPoint + experience._id);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setExperienceItem((prevState) => ({
@@ -36,39 +43,28 @@ const ModalExperienceDeletePut = ({ show, handleCloseModalEx, experience }) => {
     }));
   };
 
-  const handleDelete = () => {
-    fetch(endPoint + experience._id, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          handleCloseModalEx();
-        } else {
-          throw new Error("Errore durante la cancellazione dei dati");
-        }
-      })
-      .catch((error) => console.log(error));
+  const handleDelete = (event) => {
+    event.preventDefault();
+    dispatch(
+      deleteUserExperienceAction(userId, experience._id, setIsLoading, setError)
+    );
+    handleCloseModalEx();
+    dispatch(getUserExperienceAction(userId, setIsLoading, setError));
   };
 
-  const handleMod = () => {
-    fetch(endPoint + experience._id, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Authorization: `Bearer ${process.env.REACT_APP_STRIVE_TOKEN}`,
-      },
-      body: JSON.stringify(experienceItem),
-    })
-      .then((response) => {
-        if (response.ok) {
-        } else {
-          throw new Error("Errore durante la modifica dei dati");
-        }
-      })
-      .catch((error) => Alert(error));
+  const handleMod = (event) => {
+    event.preventDefault();
+    dispatch(
+      editUserExperienceAction(
+        userId,
+        experience._id,
+        experienceItem,
+        setIsLoading,
+        setError
+      )
+    );
+    handleCloseModalEx();
+    dispatch(getUserExperienceAction(userId, setIsLoading, setError));
   };
 
   return (

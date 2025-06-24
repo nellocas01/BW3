@@ -6,6 +6,8 @@ export const mockUser = {
   _id: 1,
   name: "Nello",
   surname: "Casolla",
+  username: "nellocas",
+  email: "nellocas@live.it",
   title: "Frontend Developer",
   area: "Napoli, Italia",
   bio: "Sono un 🌐 Web Developer Full Stack 🚀 appassionato di creare esperienze digitali coinvolgenti e di alta qualità.",

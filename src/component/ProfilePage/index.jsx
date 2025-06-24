@@ -42,8 +42,6 @@ export default () => {
       ? state.profiles.content
       : mockProfiles
   );
-  const noce = useSelector((state) => state);
-  console.log("noce useSelector", noce);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
