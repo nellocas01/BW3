@@ -1,4 +1,4 @@
-💼 LinkedIn Clone
+# 💼 LinkedIn Clone
 
 Questo progetto è una riproduzione parziale dell’interfaccia di LinkedIn, realizzata con **React** e **Redux**. L’obiettivo è simulare l’esperienza utente del noto social professionale, integrando dinamicamente contenuti tramite API pubbliche e gestendo stato globale, errori e caricamenti asincroni.
 
@@ -6,43 +6,55 @@ Il progetto è stato pensato per approfondire l’utilizzo di **React**, **Redux
 
 ---
 
-🎯 Obiettivi del progetto
+## 🎯 Obiettivi del progetto
 
-- Ricreare l'interfaccia utente di LinkedIn con particolare focus sulla homepage e profilo.
-- Strutturare una pagina dinamica dei post e delle offerte di lavoro.
-- Implementare la visualizzazione dei commenti associati ai post.
-- Introdurre una gestione globale dello stato con Redux.
-- Gestire errori e caricamenti tramite Context personalizzato.
+- Ricreare l'interfaccia utente di LinkedIn con particolare focus su homepage, profilo e offerte di lavoro.
+- Gestire una pagina dinamica dei post con commenti associati.
+- Implementare la gestione CRUD delle esperienze nella pagina profilo.
+- Introdurre filtri dinamici e ricerca per le offerte di lavoro.
+- Introdurre una gestione globale dello stato con Redux e persistenza via `redux-persist`.
+- Gestire errori e caricamenti asincroni tramite Context personalizzato.
 - Realizzare un’interfaccia responsive e coerente con il design di LinkedIn.
-- Simulare autenticazione e persistenza del token tramite `redux-persist`.
 
 ---
 
-✅ Funzionalità implementate
+## ✅ Funzionalità implementate
 
-- Homepage dinamica con visualizzazione dei post e commenti (dati mock o reali).
-- Componente `Post` con contenuti testuali e multimediali.
-- Funzionalità “Crea nuovo post” tramite modale (testo, immagine, video, evento).
-- Visualizzazione lista offerte di lavoro (`jobs`) con descrizioni HTML convertite e parse.
-- Sidebar utente personalizzata con dati dinamici.
-- Routing tra le pagine principali con React Router.
-- Gestione dello stato globale con Redux + `redux-persist`.
-- Gestione di errori e caricamenti tramite Context personalizzato (`useAppContext`).
-- UI moderna e responsive con `react-bootstrap`.
+### 🔗 Generale
+- Routing completo tra le pagine principali tramite React Router.
+- Stato globale gestito tramite Redux + `redux-persist`.
+- Context API personalizzato per gestione di errori e caricamenti.
+- Interfaccia moderna e responsive con `react-bootstrap`.
+
+### 🏠 Home Page
+- Visualizzazione dinamica dei post.
+- Possibilità di **creare un nuovo post** (testo).
+- **Filtraggio dei post** per: "tutti" e "persone collegate".
+
+### 👤 Profile Page
+- Visualizzazione dinamica dei dati utente.
+- CRUD completo sulle **esperienze lavorative**: aggiunta, modifica, eliminazione.
+- Possibilità di **simulare il collegamento**.
+
+### 💼 Jobs Page
+- Visualizzazione dinamica delle offerte di lavoro.
+- **Barra di ricerca globale** (nella navbar) per cercare un lavoro.
+- **Filtri avanzati** per categoria e azienda.
+- **Funzionalità di salvataggio nei preferiti** per le offerte di lavoro.
 
 ---
 
-🛠️ Tecnologie utilizzate
+## 🛠️ Tecnologie utilizzate
 
 - **React.js** (JSX, functional components, hooks)
 - **Redux Toolkit** per la gestione dello stato
-- **React-Bootstrap** per componenti UI
-- **React Router DOM** per la navigazione tra pagine
-- **Context API** per la gestione degli errori e stato di caricamento
-- **redux-persist** per persistenza dei dati nello storage locale
-- **Bootstrap 5** (con override personalizzato)
+- **redux-persist** per la persistenza dello stato
+- **React-Bootstrap** per la UI
+- **React Router DOM** per il routing
+- **Context API** per errori e loading globali
+- **Bootstrap 5** (con override personalizzati)
 - **dotenv** per la gestione delle variabili ambiente
-- **Mock API o Strive API** per contenuti dinamici (se disponibile)
+- **Mock API o Strive API** per contenuti dinamici (dove disponibili)
 
 ---
 
@@ -58,7 +70,7 @@ Il progetto è stato pensato per approfondire l’utilizzo di **React**, **Redux
 
 ---
 
-📱 Responsività
+## 📱 Responsività
 
 Il progetto è stato sviluppato per adattarsi a:
 
@@ -70,7 +82,7 @@ Utilizza il sistema a griglia di Bootstrap e componenti responsive per garantire
 
 ---
 
-🔧 Come eseguire il progetto
+## 🔧 Come eseguire il progetto
 
 1. **Clona il repository**:
 

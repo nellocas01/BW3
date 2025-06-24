@@ -32,7 +32,6 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Main profiles={profiles} />} />
-        <Route path="/:id" element={<Main />} />
         <Route path="/experience" element={<ExperiencesPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/jobs" element={<JobsPage />} />
