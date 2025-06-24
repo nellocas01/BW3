@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  Card,
-  Button,
-  ListGroup,
-  Stack,
-  Image,
-  CloseButton,
-} from "react-bootstrap";
-import { Linkedin } from "react-bootstrap-icons";
+import { Card, Button, ListGroup, Stack, Image } from "react-bootstrap";
+import { HeartFill, Linkedin } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
 
 const recentSearches = [
   { term: "Frontend Developer", count: 31 },
@@ -15,6 +9,22 @@ const recentSearches = [
 ];
 
 const MainJobsContent = ({ jobs }) => {
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.jobFavorites.favorites);
+
+  // funzione per controllare se un job è nei preferiti
+  const isJobFavorited = (job) => {
+    return favorites.some((fav) => fav._id === job._id);
+  };
+
+  const toggleFavorite = (job) => {
+    if (isJobFavorited(job)) {
+      dispatch({ type: "REMOVE_FROM_JOB_FAVORITES", payload: job._id });
+    } else {
+      dispatch({ type: "ADD_TO_JOB_FAVORITES", payload: job });
+    }
+  };
+
   const stripHtml = (html) => html.replace(/<[^>]*>?/gm, "");
   const truncate = (text, maxLength) =>
     text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -57,12 +67,21 @@ const MainJobsContent = ({ jobs }) => {
                     <Linkedin size={16} className="me-2" /> Valutazione attiva
                     delle candidature
                   </div>
-                  {job.promoted && (
-                    <div className="text-muted small">Promosso</div>
-                  )}
                 </div>
               </div>
-              <CloseButton />
+              {/* ✅ Bottone preferiti */}
+              <Button
+                variant="link"
+                className="p-0 border-0"
+                onClick={() => toggleFavorite(job)}
+                aria-label="Aggiungi ai preferiti"
+              >
+                <HeartFill
+                  size={20}
+                  color={isJobFavorited(job) ? "red" : "gray"}
+                  style={{ transition: "color 0.2s" }}
+                />
+              </Button>
             </ListGroup.Item>
           ))}
         </ListGroup>

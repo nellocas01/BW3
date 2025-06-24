@@ -28,6 +28,8 @@ const Home = () => {
       ? state.comments.content
       : mockComments
   );
+  const followedUsers = useSelector((state) => state.friend.followed);
+  const [showOnlyFriends, setShowOnlyFriends] = useState(false);
 
   const navigate = useNavigate();
   const navigateHomePage = () => {
@@ -48,6 +50,13 @@ const Home = () => {
     acc[c.elementId].push(c);
     return acc;
   }, {});
+
+  const filteredPosts = post
+    .filter((p) => p && p.username)
+    .filter((p) =>
+      showOnlyFriends ? followedUsers.includes(p.user._id) : true
+    )
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <>
@@ -141,26 +150,33 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <Row className="align-items-center">
+            <Row className="align-items-center mb-2">
               <Col xs={8}>
-                <hr></hr>
+                <hr />
               </Col>
-              <Col xs={4} className="text-center fs-6">
-                Ordina per: principali
+              <Col xs={4} className="text-end">
+                <Button
+                  variant={showOnlyFriends ? "primary" : "outline-primary"}
+                  size="sm"
+                  onClick={() => setShowOnlyFriends((prev) => !prev)}
+                >
+                  {showOnlyFriends
+                    ? "Mostra tutti i post"
+                    : "Solo amici seguiti"}
+                </Button>
               </Col>
             </Row>
 
-            {post
-              .filter((p) => p && p.username)
-              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-              .map((posts) => {
+            {filteredPosts.length === 0 && showOnlyFriends ? (
+              <p className="text-muted">Nessun post dagli amici seguiti.</p>
+            ) : (
+              filteredPosts.map((posts) => {
                 const postComments = commentByPost[posts._id] || [];
                 return (
                   <Card className="mb-3" key={posts._id}>
                     <Card.Body>
                       <div className="d-flex align-items-center mb-2">
                         <img src={avatar} alt="" width={80} />
-
                         <div style={{ marginLeft: "auto" }}>
                           <Card.Title className="mb-2">
                             {posts.username}
@@ -176,6 +192,7 @@ const Home = () => {
                           </small>
                         </div>
                       </div>
+
                       <Card.Text>{posts.text}</Card.Text>
 
                       <div className="mb-2">
@@ -185,10 +202,10 @@ const Home = () => {
                         <small className="text-primary me-2">#Developers</small>
                         <small className="text-primary">#Memes</small>
                       </div>
+
                       <Card.Link href="#">Mostra traduzione</Card.Link>
                       <hr />
 
-                      {/* SEZIONE COMMENTI */}
                       {postComments.length > 0 && (
                         <div className="mb-3">
                           <strong>Commenti:</strong>
@@ -215,7 +232,9 @@ const Home = () => {
                     </Card.Body>
                   </Card>
                 );
-              })}
+              })
+            )}
+
             {/* Altri elementi centrali come l'annuncio di lavoro */}
             <Card className="mb-3">
               <Card.Body>

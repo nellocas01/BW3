@@ -12,10 +12,13 @@ import selectedProfileReducer from "../reducers/selectedProfileReducer";
 import postReducer from "../reducers/postReducer";
 import commentReducer from "../reducers/commentReducer";
 import jobsReducer from "../reducers/jobsReducer";
+import jobFavoritesReducer from "../reducers/jobFavoritesReducer";
+import friendReducer from "../reducers/friendReducer";
 
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["jobFavorites", "friend"],
   transforms: [
     encryptTransform({
       secretKey: process.env.REACT_APP_PERSIST_KEY,
@@ -33,6 +36,8 @@ const rootReducer = combineReducers({
   posts: postReducer,
   comments: commentReducer,
   jobs: jobsReducer,
+  jobFavorites: jobFavoritesReducer,
+  friend: friendReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,12 +1,10 @@
 import React from "react";
 import { Card, Button, ListGroup, Stack, Image } from "react-bootstrap";
-import {
-  BookmarkCheckFill,
-  JournalText,
-  BriefcaseFill,
-} from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 
 const JobsSidebar = ({ jobs }) => {
+  const favorites = useSelector((state) => state.jobFavorites.favorites);
+
   return (
     <Stack gap={3}>
       {/* Card offerta salvata */}
@@ -40,30 +38,21 @@ const JobsSidebar = ({ jobs }) => {
 
       {/* Lista preferenze */}
       <Card>
-        <ListGroup variant="flush">
-          <ListGroup.Item
-            action
-            href="#preferenze"
-            className="d-flex align-items-center"
-          >
-            <BookmarkCheckFill className="me-2" /> Le mie offerte di lavoro
-          </ListGroup.Item>
-          <ListGroup.Item
-            action
-            href="#alert"
-            className="d-flex align-items-center"
-          >
-            <JournalText className="me-2" /> Preferenze
-          </ListGroup.Item>
-          <ListGroup.Item
-            action
-            href="#valutazioni"
-            className="d-flex align-items-center"
-          >
-            <BriefcaseFill className="me-2" /> Le mie informazioni sulla
-            carriera
-          </ListGroup.Item>
-        </ListGroup>
+        <Card.Body>
+          <Card.Title>Offerte preferite</Card.Title>
+          {favorites.length === 0 ? (
+            <div className="text-muted small">Nessuna offerta salvata</div>
+          ) : (
+            <ListGroup variant="flush">
+              {favorites.map((job) => (
+                <ListGroup.Item key={job._id}>
+                  <div>{job.title}</div>
+                  <div className="text-muted small">{job.company_name}</div>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          )}
+        </Card.Body>
       </Card>
 
       {/* Bottone Pubblica offerta */}
